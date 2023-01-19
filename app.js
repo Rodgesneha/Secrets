@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const encrypt = require("mongoose-encryption");
 
 const app = express();
 app.set("view engine", "ejs");
@@ -14,6 +15,8 @@ const userSchema = mongoose.Schema({
     password : String
 });
 
+const secret = "Thisisourlittelsecret.";
+userSchema.plugin(encrypt, {secret:secret, encryptedFields : ["password"]});
 
 const User = new mongoose.model("User",userSchema);
 
